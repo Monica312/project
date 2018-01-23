@@ -1,12 +1,17 @@
 package com.octanner.controller;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,10 +33,9 @@ public class HomeController {
 	}
 	
 	@RequestMapping("/sendSignupRequest")
-	
-	public String signUpToDB(@ModelAttribute("empobject")Employee emp, @RequestParam("cnfpwd")String cnfpwd,Model model){
+	public String signUpToDB(@ModelAttribute("empobject")Employee emp,Model model){
 		String msg=null;
-		if(emp.getPassword().equals(cnfpwd)){
+		if(emp.getPassword().equals(emp.getCpass())){
 			
 			if(employeDao.addEmployee(emp))			
 				msg="Successfully Signedup";
@@ -74,9 +78,31 @@ public class HomeController {
 	
 	
 	@RequestMapping("/reqSendUpdatedUser")
-	public String editEmployee(@ModelAttribute("empobject")Employee emp,Model model){
+	public String editEmployee(@ModelAttribute("empobject")Employee emp,Model model,HttpServletRequest 	request){
 		String msg="";
+		
+		
+		
 		if(employeDao.editEmployee(emp)){
+			
+			
+			File file=new File(request.getRealPath("resources//images//profilepic//"));
+			/*System.out.println(file.exists());*/
+			if(!file.exists()){
+				file.mkdirs();
+			}
+			File storagepath=new File(request.getRealPath("resources//images//profilepic//")+emp.getName()+".jpg");
+			try{
+			byte[] imagebytes=emp.getProfilePic().getBytes();
+			System.out.println(imagebytes);
+			BufferedOutputStream bufferedOutputStream=new BufferedOutputStream(new FileOutputStream(storagepath));
+			bufferedOutputStream.write(imagebytes);
+			bufferedOutputStream.close();
+			}catch (Exception e) {
+				// TODO: handle exception
+				System.out.println(e);
+			}
+			
 			msg="Profile edited successfully...";
 		}
 		else{
@@ -98,5 +124,20 @@ public class HomeController {
 
 	
 	
-	
+	@RequestMapping("/empSearch")
+	public String empSearch(@RequestParam("name")String name,ModelMap model)
+	{
+		
+		  Employee emp=employeDao.getEmployeeByName(name);
+		  if(emp!=null)
+		    model.addAttribute("empobject",emp )  ;
+		    
+		  else
+		  {
+			  model.addAttribute("empnameerror", "Employee is not Found");
+			  model.addAttribute("empobject",new Employee())  ;
+		  }
+		
+		return "adminhomepage";
+	}
 }

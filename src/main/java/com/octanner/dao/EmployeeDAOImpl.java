@@ -55,7 +55,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	
 	}
 
-	public Employee getEmployeeById(String eid) {
+	public Employee getEmployeeById(int eid) {
 		// TODO Auto-generated method stub
 		Session ses = sessionFactory.openSession();
 		Employee temp = (Employee)ses.get(Employee.class,eid);
@@ -105,6 +105,21 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 		ses.update(eid);
 		ses.flush();
 		ses.close();
+	}
+
+	@Override
+	public Employee getEmployeeByName(String name) {
+		// TODO Auto-generated method stub
+		try
+		{
+			Session ses = sessionFactory.openSession();
+			return ses.createQuery("from Employee where name=:name",Employee.class).setParameter("name", name).getSingleResult();
+					
+		 
+		}catch (Exception e) {
+			// TODO: handle exception
+			return null;
+		}
 	}
 
 

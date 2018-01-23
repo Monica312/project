@@ -39,7 +39,7 @@ http://www.springframework.org/schema/tx/spring-tx.xsd">
 
 <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">  
         <property name="driverClassName" value="org.h2.Driver"></property>  
-        <property name="url" value="jdbc:h2:tcp://localhost/~/test2;INIT=CREATE SCHEMA IF NOT EXISTS test2"></property>  
+        <property name="url" value="jdbc:h2:tcp://localhost/~/test2"></property>  
         <property name="username" value="sa"></property>
         <property name="password" value=""></property>  
 </bean>  

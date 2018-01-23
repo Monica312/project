@@ -3,55 +3,128 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
-</head>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+  
+  .navbar-brand
+  {
+    height:auto;
+  }
+  .logo
+  {
+     width:50%;
+     height:80px;
+  }
+  
+   .navbar .loginframe
+  {
+     float:right;
+     margin-top: 2%;
+  }
+  
+  
+  
+  </style>
+  
+  </head>
+
 <body>
 
-<div style="border-style:solid;color:lightgrey;border-width:thin;position:absolute;top:30px;right:100px;left:100px" > 
-		<img src="C:\Users\Home\Desktop\New folder\logo.jpeg"></img>
-		<input style="padding:10px 50px;position:absolute;top:20px;;left:420px" type="text" placeholder="  Search" >
-		 <input type="button" value="Submit" style="border-style:none;
-				position:absolute;top:25px;;left:695px;padding:4px 20px">
-		<select  style="position:absolute; top:20px;right:100px;padding:5px 24px;"> 
-			<option>  Anjani Sai </option>
-			<option> Settings</option>
-			<option> Log Out</option>
-		</select>
-			
-		</div>
-		<p style="position:absolute;top:100px;left:43%;font-family:Calibri;font-size:120%;"> USER DETAILS </p>
-		<div style="font-family:Calibri;position:absolute;top:200px; left:200px;">
-		
-			Name <br><br> Email<br><br> Phone Number <br><br>Address <br><br> 
-			Company Logo
-		</div>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<div class="container">
 
-		<div style="position:absolute;top:200px;left:350px;">
-		<input type="text"   name="name"> <br><br>
-		<input type="text"   name="email"> <br><br>
-		<input type="number" name="phone"> <br><br>
-		<input type="text " name="address"> <br><br> 
-		<input type="file" name=""> <br><br>
-		</div>
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#"><img class="logo" src="resources/images/company/logo.jpg"></a>
+    </div>
+    <div class="col-sm-4">
+       <form action="empSearch" method="post" >
+    <div class="form-inline">
+    <input type="text" class="form-control" name="name"><button type="submit"><span class="glyphicon glyphicon-search"></span></button>
+    </div>
+    </form>
+    </div>
+    <div class="loginframe">
+ 
+    <img src="resources/images/profilepic/${empobject.name}.jpg" class="media-object" style="width:60px" alt="userimage"/>${empobject.name}
+    
+    </div>
+  </div>
+</nav>
 
-		<div style="font-family:Calibri;position:absolute;top:200px;right:550px;">
-	      		Company <br><br> Designation <br><br> RoleID <br><br>Manager<br><br> Self Image
-		</div>
+<div class="container row">
+<div class="col-sm-2">
+</div>
 
-		<div style="position:absolute;top:200px;right:300px;">
-		<input type="text"   name="company"> <br><br>
-		<input type="text"   name="role"> <br><br>
-		<input type="number" name="roleID"> <br><br>
-		<input type="text" name=" manager"> <br><br>
-		<input type="file"   name="photo" value="         Upload Photo      "> <br><br>
-		</div>
-		
-		<input type="button" value="Save" style="border-style:none;padding:7px 24px;background-color:rgb(100, 202, 71);
-							 position:absolute;top:420px;left:44%;color:white;
-							 font-family:Calibri;">
+<div class="container col-sm-8">
+<h2 align="center">User Details</h2>
+
+<p style="color:red">${empnameerror}</p>
+
+<form:form commandName="empobject" action="reqSendUpdatedUser" enctype="multipart/form-data">
+<form:hidden path="id"/>
+<form:hidden path="password"/>
+<form:hidden path="role"/>
+
+<div class="col-sm-12 form-inline">
+<div class="col-sm-6">
+<label class="col-sm-4">Name</label>
+<form:input path="name" class="form-control col-sm-8"/>
+</div>
+<div class="col-sm-6">
+<label class="col-sm-4">Company</label>
+<form:input path="company" class="form-control col-sm-8"/>
+</div>
+</div>
+
+<div class="col-sm-12 form-inline">
+<div class="col-sm-6">
+<label class="col-sm-4">Email</label>
+<form:input path="email" class="form-control col-sm-8"/>
+</div>
+<div class="col-sm-6">
+<label class="col-sm-4">Designation</label>
+<form:input path="designation" class="form-control col-sm-8"/>
+</div>
+</div>
+
+
+<div class="col-sm-12 form-inline">
+<div class="col-sm-6">
+<label class="col-sm-4">Phone Number</label>
+<form:input path="phone_no" class="form-control col-sm-8"/>
+</div>
+<div class="col-sm-6">
+<label class="col-sm-4">Role Id</label>
+<form:input path="role" class="form-control col-sm-8"/>
+</div>
+</div>
 
 
 
-</body>
+<div class="col-sm-12 form-inline">
+<div class="col-sm-6">
+<label class="col-sm-4">Address</label>
+<form:input path="address" class="form-control col-sm-8"/>
+</div>
+<div class="col-sm-6">
+<label class="col-sm-4">Profile Pic</label>
+<form:input type="file" path="profilePic" class="form-control col-sm-8"/>
+</div>
+</div>
+  
+<center><input type="submit" value="Save" class="btn btn-primary"/></center>
+</form:form>
+</div>
+
+</div>
+</div>
+
+</body> 
 </html>

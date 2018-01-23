@@ -2,18 +2,32 @@ package com.octanner.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Transient;
+
+import org.springframework.web.multipart.MultipartFile;
 
 @Entity
 public class Employee {
 @Id
-@GeneratedValue
+@GeneratedValue(strategy=GenerationType.IDENTITY)
 private int id;
 private String name;
 private String email;
 private String password;
+@Transient
+private String cpass;
 private String phone_no;
 private String address;
+
+private String company;
+private String designation;
+private String role;
+@Transient
+private MultipartFile profilePic;
+
+
 public int getId() {
 	return id;
 }
@@ -68,9 +82,19 @@ public String getRole() {
 public void setRole(String role) {
 	this.role = role;
 }
-private String company;
-private String designation;
-private String role;
+public String getCpass() {
+	return cpass;
+}
+public void setCpass(String cpass) {
+	this.cpass = cpass;
+}
+public MultipartFile getProfilePic() {
+	return profilePic;
+}
+public void setProfilePic(MultipartFile profilePic) {
+	this.profilePic = profilePic;
+}
+
 
 	
 	
